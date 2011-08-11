@@ -46,8 +46,15 @@ clean:
 	rm -rf $(PACKAGE)-$(VERSION)
 
 release:
+	@if test -z "$(KEYID)"; then \
+		echo "Try this instead:"; \
+		echo "  make release KEYID=[PGPKEYID]"; \
+		echo "For example:"; \
+		echo "  make release KEYID=2117364A"; \
+		exit 1; \
+	fi
 	make
-	gpg --detach-sign $(PACKAGE)-$(VERSION).tgz
+	gpg --detach-sign --default-key $(KEYID) $(PACKAGE)-$(VERSION).tgz
 	gpg --verify $(PACKAGE)-$(VERSION).tgz.sig
 	git tag $(PACKAGE)-$(VERSION)
 	git commit -m "Version $(VERSION)." -a
