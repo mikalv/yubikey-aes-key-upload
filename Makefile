@@ -56,8 +56,7 @@ release:
 	make
 	gpg --detach-sign --default-key $(KEYID) $(PACKAGE)-$(VERSION).tgz
 	gpg --verify $(PACKAGE)-$(VERSION).tgz.sig
-	git tag $(PACKAGE)-$(VERSION)
-	git commit -m "Version $(VERSION)." -a
+	git tag -u $(KEYID) -m "$(PACKAGE) $(VERSION)" $(PACKAGE)-$(VERSION)
 	git push
 	git push --tags
 	mkdir -p ../releases/$(PACKAGE)/ && \
