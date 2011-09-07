@@ -18,35 +18,42 @@ otp2ksmurls: Function that returns a list of YK-KSM URLs.  Should
 normally be the same as configured on your YK-VALs.
 
 $publickey and $privatekey or for recapatcha.net.  Get a key from
-http://recaptcha.net/api/getkey
+http://recaptcha.net/
 
 Then $defaultkey indicates the GnuPG secret key used to sign encrypted
-keys.  $recipients holds a list of recipient keys, normally a GnuPG
-key on the Yk-KSM.
+keys.  $recipients holds a list of recipient keys, normally GnuPG keys
+of the YK-KSMs.  See later on how the GnuPG configuration should look
+like.
 
 Installation
 ------------
 
 Below are notes that will help you install and configure the package.
 
-apt-get install apache2 php5 php5-curl php5-mcrypt # php-pear
+apt-get install apache2 php5 php5-curl php5-mcrypt
 apt-get install libapache2-mod-gnutls gnutls-bin
 apt-get install zip
 a2enmod gnutls
+
+cd /var/www
+git clone git://github.com/Yubico/yubikey-aes-key-upload.git
+cp yubikey-aes-key-upload/ykaku-config.php .
+ln -s yubikey-aes-key-upload/favicon.ico
+ln -s yubikey-aes-key-upload/images
+ln -s yubikey-aes-key-upload/recaptchalib.php
+ln -s yubikey-aes-key-upload/style.css
+ln -s yubikey-aes-key-upload/ykaku-tools.php
+ln -s yubikey-aes-key-upload/ykaku-upload.php
+
+$EDITOR ykaku-config.php # see above under 'Configuration'
 
 create /etc/ssl/private/upload.yubico.com-key.pem
 and    /etc/ssl/private/upload.yubico.com-chain.pem
 chmod og-r /etc/ssl/private/upload.yubico.com-key.pem
 
-cat > /etc/php5/conf.d/harden.ini
-display_errors = Off
-log_errors = On
-^D
-
-disable port 80 in /etc/apache2/ports.conf
+Comment out 'Listen 80' in /etc/apache2/ports.conf
 
 cat > /etc/apache2/sites-available/yubikey-aes-key-upload
-Listen 443
 <VirtualHost *:443>
 	ServerName upload.yubico.com
         ServerAdmin support@yubico.com
@@ -116,6 +123,8 @@ mv $TMPZIP $WWWZIP
 rm -f ${WWWZIP}.old
 ^D
 
+chmod +x /usr/local/sbin/zip-yk-spool
+
 crontab - 
 # m h  dom mon dow   command
 * * * * * /usr/local/sbin/zip-yk-spool
@@ -128,7 +137,7 @@ chmod go-rx /etc/ykaku
 su www-data -c bash
 gpg --homedir /etc/ykaku --import
 gpg --homedir /etc/ykaku --gen-key
-gpg --homedir /etc/ykaku --list-keys
+
 gpg --homedir /etc/ykaku --list-keys
 
 /etc/ykaku/pubring.gpg
@@ -149,7 +158,12 @@ uid                  YK-KSM ksm3 Import Key
 sub   4096R/78901234 2011-05-03
 
 gpg --homedir /etc/ykaku --list-secret-keys
+
 /etc/ykaku/secring.gpg
 -------------------------
 sec   2048R/12345678 2007-02-25
 uid                  YubiKey AES Key Upload Service
+
+gpg --homedir /etc/ykaku --sign-key 23456789
+gpg --homedir /etc/ykaku --sign-key 45678901
+gpg --homedir /etc/ykaku --sign-key 67890123
