@@ -130,17 +130,17 @@ crontab -
 * * * * * /usr/local/sbin/zip-yk-spool
 ^D
 
-mkdir /etc/ykaku
-chown www-data.www-data /etc/ykaku
-chmod go-rx /etc/ykaku
+mkdir /etc/ykaku/gnupg-homedir
+chown www-data.www-data /etc/ykaku/gnupg-homedir
+chmod go-rx /etc/ykaku/gnupg-homedir
 
 su www-data -c bash
-gpg --homedir /etc/ykaku --import
-gpg --homedir /etc/ykaku --gen-key
+gpg --homedir /etc/ykaku/gnupg-homedir --import
+gpg --homedir /etc/ykaku/gnupg-homedir --gen-key
 
-gpg --homedir /etc/ykaku --list-keys
+gpg --homedir /etc/ykaku/gnupg-homedir --list-keys
 
-/etc/ykaku/pubring.gpg
+/etc/ykaku/gnupg-homedir/pubring.gpg
 -------------------------
 pub   2048R/12345678 2007-02-25
 uid                  YubiKey AES Key Upload Service
@@ -157,13 +157,13 @@ pub   4096R/67890123 2011-05-03
 uid                  YK-KSM ksm3 Import Key
 sub   4096R/78901234 2011-05-03
 
-gpg --homedir /etc/ykaku --list-secret-keys
+gpg --homedir /etc/ykaku/gnupg-homedir --list-secret-keys
 
-/etc/ykaku/secring.gpg
+/etc/ykaku/gnupg-homedir/secring.gpg
 -------------------------
 sec   2048R/12345678 2007-02-25
 uid                  YubiKey AES Key Upload Service
 
-gpg --homedir /etc/ykaku --sign-key 23456789
-gpg --homedir /etc/ykaku --sign-key 45678901
-gpg --homedir /etc/ykaku --sign-key 67890123
+gpg --homedir /etc/ykaku/gnupg-homedir --sign-key 23456789
+gpg --homedir /etc/ykaku/gnupg-homedir --sign-key 45678901
+gpg --homedir /etc/ykaku/gnupg-homedir --sign-key 67890123

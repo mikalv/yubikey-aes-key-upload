@@ -155,7 +155,7 @@ if ($_REQUEST["posted"]) {
 <?php
     $now = gmstrftime ("%Y-%m-%dT%H:%M:%S");
     $file = "/var/spool/ykaku/keys-$now.asc";
-    $h = popen("gpg --batch --homedir /etc/ykaku --default-key $defaultkey --armor --encrypt --sign $recipients > $file 2>&1", "w");
+    $h = popen("gpg --batch --homedir /etc/ykaku/gnupg-homedir --default-key $defaultkey --armor --encrypt --sign $recipients > $file 2>&1", "w");
     $str = sprintf ("# ykksm 1\n# email: %s\n# otp: %s\n%s,%s,%s,%s,000000000000,%s,\n",
 		   $_REQUEST["email"], $_REQUEST["otp"],
 		   $_REQUEST["serial"], $_REQUEST["prefix"],
