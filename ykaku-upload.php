@@ -1,7 +1,7 @@
 <?php
 
 /* Written by Simon Josefsson <simon@josefsson.org>.
- * Copyright (c) 2009-2012 Yubico AB
+ * Copyright (c) 2009-2013 Yubico AB
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -186,9 +186,15 @@ if ($_REQUEST["posted"]) {
 <?php } else { ?>
     <p>Please enter information about your newly personalized YubiKey.</p>
 
-    <p><b>Please note: It takes 15 minutes for an uploaded identity to
-    become valid on our validation serviers.  Please wait 15-20
-    minutes before testing an uploaded identity.</b></p>
+    <p><b>Please note: It takes up to 15 minutes for an uploaded
+    identity to become valid on our validation servers.  Please wait
+    at least 15 minutes before testing an uploaded identity.  'vv'
+    prefix credentials are not guaranteed to have the same
+    availability as production 'cc' prefix credentials.  Yubico
+    reserves the right to invalidate any 'vv' prefix credential on the
+    Yubico validation service (YubiCloud) at any time for any reason
+    including if the credential appears as not loaded onto a genuine
+    YubiKey.</b></p>
 
     <form name="upload" method="post">
     <input type=hidden name="posted" value="ok">
