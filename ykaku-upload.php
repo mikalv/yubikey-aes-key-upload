@@ -100,7 +100,7 @@ if (array_key_exists("posted", $_REQUEST) && $_REQUEST["posted"]) {
     $aeskey_err = "AES key must consist only of hex characters (0-9A-F)";
   }
   if (strncmp ($_REQUEST["otp"], $_REQUEST["prefix"], 12) != 0) {
-    $otp_err = "OTP prefix mismatch";
+    $otp_err = "OTP prefix mismatch, might be due to keyboard layout";
   } else if (!preg_match("/^([cbdefghijklnrtuv]{0,16})([cbdefghijklnrtuv]{32})$/",
 		  $_REQUEST["otp"], $matches)) {
     $otp_err = "Invalid YubiKey OTP";
