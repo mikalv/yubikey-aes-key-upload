@@ -61,7 +61,7 @@ function yubikeyPrefixExist_p ($otp) {
   }
 }
 
-if ($_REQUEST["posted"]) {
+if (array_key_exists("posted", $_REQUEST) && $_REQUEST["posted"]) {
   $resp = recaptcha_check_answer ($privatekey,
 				  $_SERVER["REMOTE_ADDR"],
 				  $_REQUEST["recaptcha_challenge_field"],
@@ -207,33 +207,33 @@ if ($_REQUEST["posted"]) {
     <tr>
       <td>Your e-mail address:</td>
       <td><input type=text length=13 name="email"
-                 value="<?php echo $_REQUEST["email"]; ?>"></td>
+                 value="<?php echo array_key_exists("email", $_REQUEST) ? $_REQUEST["email"] : ""; ?>"></td>
       <td><font color="red"><?php print $email_err; ?>
     </tr>
     <tr>
       <td>Serial number:</td>
-      <td><input type=text size=10 name="serial" value="<?php echo $_REQUEST["serial"]; ?>"></td>
+      <td><input type=text size=10 name="serial" value="<?php echo array_key_exists("serial", $_REQUEST) ? $_REQUEST["serial"] : ""; ?>"></td>
       <td><font color="red"><?php print $serial_err; ?></tr>
     </tr>
     <tr>
       <td>YubiKey prefix:</td>
       <td><input type=text length=13 name="prefix"
-                 value="<?php if ($_REQUEST["prefix"]) { echo $_REQUEST["prefix"]; } else { echo "vv"; } ?>"></td>
+                 value="<?php echo array_key_exists("prefix", $_REQUEST) ? $_REQUEST["prefix"] : "vv"; ?>"></td>
       <td><font color="red"><?php print $prefix_err; ?>
     </tr>
     <tr>
       <td>Internal identity:</td>
-      <td><input type=text size=13 name="uid" value="<?php echo $_REQUEST["uid"]; ?>"></td>
+      <td><input type=text size=13 name="uid" value="<?php echo array_key_exists("uid", $_REQUEST) ? $_REQUEST["uid"] : ""; ?>"></td>
       <td><font color="red"><?php print $uid_err; ?></tr>
     </tr>
     <tr>
       <td>AES Key:</td>
-      <td><input type=text length=33 name="aeskey" value="<?php echo $_REQUEST["aeskey"]; ?>"></td>
+      <td><input type=text length=33 name="aeskey" value="<?php echo array_key_exists("aeskey", $_REQUEST) ? $_REQUEST["aeskey"] : ""; ?>"></td>
       <td><font color="red"><?php print $aeskey_err; ?></tr>
     </tr>
     <tr>
       <td>OTP from the YubiKey:</td>
-      <td><input type=text name="otp" value="<?php echo $_REQUEST["otp"]; ?>"></td>
+      <td><input type=text name="otp" value="<?php echo array_key_exists("otp", $_REQUEST) ? $_REQUEST["otp"] : ""; ?>"></td>
       <td><font color="red"><?php print $otp_err; ?></tr>
     </tr>
     <tr><td colspan=3><?php echo recaptcha_get_html($publickey, $error, true); ?></td></tr>
