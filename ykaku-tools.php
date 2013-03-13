@@ -29,7 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-function hex2bin($h)
+function yubi_hex2bin($h)
 {
   if (!is_string($h)) return null;
   $r='';
@@ -47,10 +47,10 @@ function modhex2hex($m)
 function aes128ecb_decrypt($key,$in)
 {
   return bin2hex(mcrypt_ecb(MCRYPT_RIJNDAEL_128,
-			    hex2bin($key),
-			    hex2bin($in),
+			    yubi_hex2bin($key),
+			    yubi_hex2bin($in),
 			    MCRYPT_DECRYPT,
-			    hex2bin('00000000000000000000000000000000')));
+			    yubi_hex2bin('00000000000000000000000000000000')));
 }
 	
 function calculate_crc($token)
