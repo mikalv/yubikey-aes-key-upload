@@ -14,9 +14,6 @@ The configuration file is ykaku-config.php and it contains some
 examples and documentation.  Below is extended documentation for the
 configurable variables.
 
-otp2ksmurls: Function that returns a list of YK-KSM URLs.  Should
-normally be the same as configured on your YK-VALs.
-
 $publickey and $privatekey or for recapatcha.net.  Get a key from
 http://recaptcha.net/
 
@@ -90,6 +87,10 @@ a2dissite 000-default
 mkdir /var/spool/ykaku
 chown www-data.www-data /var/spool/ykaku
 # copy files from old machine, if any
+
+mkdir /var/spool/ykaku-cache
+chown www-data.www-data /var/spool/ykaku-cache
+# and copy these as well..
 
 mkdir -p /var/www/dl
 cat > /var/www/dl/.htaccess
