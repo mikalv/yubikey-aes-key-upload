@@ -44,18 +44,22 @@ $aeskey_err = "";
 $otp_err = "";
 
 function yubikeyPrefixExist_p ($otp) {
-  $urls = otp2ksmurls ($otp, 0);
-  if (!is_array($urls)) {
+  $dir = "/var/spool/ykaku-cache/";
+  $public_id = substr($otp, 0, 12);
+
+  $parts = preg_split('/(.{2})/', $public_id, NULL, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+
+  $dir .= implode("/", $parts);
+  $file = "$dir/$public_id";
+
+  if(file_exists($file)) {
+    return true;
+  } else {
+    mkdir($dir, 0700, true);
+    touch($file);
     return false;
   }
-  $response = retrieveURLasync ($urls);
-  if ($response) {
-    debug("YK-KSM response: " . $response);
-  }
-
-  return !(strstr ($response, "ERR Unknown yubikey")
-	|| strstr ($response, "ERR Unknown public_id"));
-} // End decryptOTP
+}
 
 if ($_REQUEST["posted"]) {
   $resp = recaptcha_check_answer ($privatekey,
