@@ -233,7 +233,9 @@ if (array_key_exists("posted", $_REQUEST) && $_REQUEST["posted"]) {
     </tr>
     <tr>
       <td>OTP from the YubiKey:</td>
-      <td><input type=text name="otp" value="<?php echo array_key_exists("otp", $_REQUEST) ? $_REQUEST["otp"] : ""; ?>"></td>
+      <td><input type=text name="otp"
+                 value="<?php echo array_key_exists("otp", $_REQUEST) ? $_REQUEST["otp"] : ""; ?>"
+                 onkeypress="return event.keyCode != 13;"></td>
       <td><font color="red"><?php print $otp_err; ?></tr>
     </tr>
     <tr><td colspan=3><?php echo recaptcha_get_html($publickey, $error, true); ?></td></tr>
