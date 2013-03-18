@@ -167,6 +167,24 @@ if (array_key_exists("posted", $_REQUEST) && $_REQUEST["posted"]) {
 		   $now);
     fwrite ($h, $str);
     pclose ($h);
+
+    if (isset($output_command) == TRUE && $output_command) {
+      $now = gmstrftime ("%Y-%m-%dT%H:%M:%S");
+      $h = popen("$output_command 2>&1", "w");
+      $str = sprintf ("email: %s\n" .
+		      "otp: %s\n" .
+		      "serial: %s\n" .
+		      "prefix: %s\n" .
+		      "uid: %s\n" .
+		      "aes_key: %s\n" .
+		      "timestamp: %s\n",
+		   $_REQUEST["email"], $_REQUEST["otp"],
+		   $_REQUEST["serial"], $_REQUEST["prefix"],
+		   $_REQUEST["uid"], $_REQUEST["aeskey"],
+		   $now);
+      fwrite ($h, $str);
+      pclose ($h);
+    }
 ?>
 </pre>
     <p><b>Success!</b></p>
