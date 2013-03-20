@@ -116,14 +116,14 @@ if (array_key_exists("posted", $_REQUEST) && $_REQUEST["posted"]) {
       $uid_err = "Identity in OTP does not match";
     }    
   }
-  if (($prefix_err . $otp_err . $aeskey_err . $uid_err) == "") {
-    if (yubikeyPrefixExist_p ($_REQUEST["otp"])) {
-      $prefix_err = "Sorry, that yubikey prefix is already in use";
+  if ($resp && $resp->is_valid) {
+    if (($prefix_err . $otp_err . $aeskey_err . $uid_err) == "") {
+      if (yubikeyPrefixExist_p ($_REQUEST["otp"])) {
+        $prefix_err = "Sorry, that yubikey prefix is already in use";
+      } else {
+        $ok = true;
+      }
     }
-  }
-  if ($resp && $resp->is_valid
-   && ($email_err . $serial_err . $prefix_err . $uid_err . $aeskey_err . $otp_err) == "") {
-    $ok = true;
   }
 }
 ?>
